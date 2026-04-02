@@ -29,9 +29,36 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_del = sub.add_parser("delete", help="Удалить задачу")
     p_add = sub.add_parser("add", help="Добавить задачу")
-    p_del.add_argument("id", type=int, help="ID задачи")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p_add = sub.add_parser("add", help="Добавить задачу")
+    p_add.add_argument("title", help="" \
+    "" \
+    "" \
+    "Текст задачи")
+
+
+
+    
+    p_del.add_argument("i" \
+    "" \
+    "" \
+    "d", type=int, help="ID задачи")
 
     return parser
+
+
+
+
+
+from .storage import JsonTaskStore
+
+
+
+
+def _default_store_path() -> Path:
+    return Path("data") / "tasks.json"
+
 
 
 def _print_tasks(tasks) -> None:

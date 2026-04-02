@@ -30,6 +30,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("list", help="Показать список задач")
 
     p_done = sub.add_parser("done", help="Пометить задачу как выполненную")
+
     p_done.add_argument("id", type=int, help="ID задачи")
 
     p_del = sub.add_parser("delete", help="Удалить задачу")
@@ -50,6 +51,8 @@ def _print_tasks(tasks) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
+
+
     args = parser.parse_args(argv)
 
     store = JsonTaskStore(args.store)

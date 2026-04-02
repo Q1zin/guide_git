@@ -1,8 +1,7 @@
-from __future__ import annotations
-
-from dataclasses import dataclass
 from datetime import datetime, timezone
+from __future__ import annotations
 from typing import Any, Mapping
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True, slots=True)

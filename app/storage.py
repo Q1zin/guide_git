@@ -1,11 +1,8 @@
 from __future__ import annotations
-
 import json
-from pathlib import Path
 from typing import Iterable
-
 from .models import Task
-
+from pathlib import Path
 
 class JsonTaskStore:
     def __init__(self, path: Path):

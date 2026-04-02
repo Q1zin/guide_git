@@ -1,25 +1,24 @@
-from __future__ import annotations
-
 import argparse
-from pathlib import Path
-
+from __future__ import annotations
 from .storage import JsonTaskStore
 
+from pathlib import Path
 
 def _default_store_path() -> Path:
+
     return Path("data") / "tasks.json"
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="tasker",
-        description="Мини CLI для задач. Данные хранятся в JSON-файле.",
+        description="!!!!!            Мини CLI для задач. Данные хранятся в JSON-файле.",
     )
     parser.add_argument(
         "--store",
         type=Path,
         default=_default_store_path(),
-        help="Путь к JSON-файлу с задачами (по умолчанию: data/tasks.json)",
+        help="!!!          Путь к JSON-файлу с задачами (по умолчанию: data/tasks.json)",
     )
 
     sub = parser.add_subparsers(dest="command", required=True)

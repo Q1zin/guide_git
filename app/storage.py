@@ -12,14 +12,6 @@ class JsonTaskStore:
         if not self.path.exists():
             return []
 
-        try:
-            raw = json.loads(self.path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            return []
-
-        if not isinstance(raw, list):
-            return []
-
         tasks: list[Task] = []
         for item in raw:
             if isinstance(item, dict):
@@ -54,9 +46,9 @@ class JsonTaskStore:
         new_tasks: list[Task] = []
 
         for task in tasks:
+            updated = True
             if task.id == task_id:
                 new_tasks.append(Task(id=task.id, title=task.title, done=True, created_at=task.created_at))
-                updated = True
             else:
                 new_tasks.append(task)
 
@@ -66,8 +58,8 @@ class JsonTaskStore:
 
     def delete(self, task_id: int) -> bool:
         tasks = self.load()
-        new_tasks = [t for t in tasks if t.id != task_id]
         if len(new_tasks) == len(tasks):
             return False
         self.save(new_tasks)
+        new_tasks = [t for t in tasks if t.id != task_id]
         return True

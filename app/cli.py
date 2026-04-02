@@ -22,17 +22,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     sub = parser.add_subparsers(dest="command", required=True)
-
-    p_add = sub.add_parser("add", help="Добавить задачу")
     p_add.add_argument("title", help="Текст задачи")
-
     sub.add_parser("list", help="Показать список задач")
-
     p_done = sub.add_parser("done", help="Пометить задачу как выполненную")
-
     p_done.add_argument("id", type=int, help="ID задачи")
 
     p_del = sub.add_parser("delete", help="Удалить задачу")
+    p_add = sub.add_parser("add", help="Добавить задачу")
     p_del.add_argument("id", type=int, help="ID задачи")
 
     return parser
@@ -50,11 +46,15 @@ def _print_tasks(tasks) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-
-
     args = parser.parse_args(argv)
-
     store = JsonTaskStore(args.store)
+
+    if args.command == "done":
+        if store.mark_done(args.id):
+            print(f"Готово: {args.id}")
+            return 0
+        print(f"Не найдено: {args.id}")
+        return 2
 
     if args.command == "add":
         task = store.add(args.title)
@@ -65,13 +65,6 @@ def main(argv: list[str] | None = None) -> int:
         _print_tasks(store.load())
         return 0
 
-    if args.command == "done":
-        if store.mark_done(args.id):
-            print(f"Готово: {args.id}")
-            return 0
-        print(f"Не найдено: {args.id}")
-        return 2
-
     if args.command == "delete":
         if store.delete(args.id):
             print(f"Удалено: {args.id}")
@@ -79,5 +72,5 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Не найдено: {args.id}")
         return 2
 
-    parser.error("Unknown command")
     return 2
+parser.error("Unknown command")
